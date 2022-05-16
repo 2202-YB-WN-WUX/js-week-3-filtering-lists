@@ -11,6 +11,32 @@
   </head>
   <body>
     <h1>Filtering Lists</h1>
+    <div id="toolbar">
+      <div id="filter-checkbox">
+        <form id="genre-form" action="">
+
+          <label for="genre">Pop</label>
+          <input type="checkbox" name="genre" value="pop">
+
+          <label for="genre">Indie</label>
+          <input type="checkbox" name="genre" value="indie">
+
+          <label for="genre">Classical</label>
+          <input type="checkbox" name="genre" value="classical">
+
+          <label for="genre">Rap</label>
+          <input type="checkbox" name="genre" value="rap">
+
+          <a id="genre-filter-button" class="button">Filter genre <i class="bi bi-arrow-right"></i></a>
+
+        </form>
+      </div>
+      <div id="search-box">
+        <input type="text" id="search-input" placeholder="Search...">
+        <i id="search-button" class="bi bi-search-heart"></i>
+      </div>
+    </div>
+    <div id="notifications"></div>
     <div id="result"></div>
   <div id="modal-overlay">
     <div id="modal-content">
@@ -19,6 +45,7 @@
       <div id="net-worth-data"></div>
     </div>
   </div>
+  <img id="face" src="img/ccclaymoji.svg" alt="face smiley">
   <script src="js/script.js"></script>
   </body>
 </html>

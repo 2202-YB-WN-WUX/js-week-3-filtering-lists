@@ -17,7 +17,7 @@ const artists = [
   },
   {
     id: 2,
-    name: "Olivia Rodrigez",
+    name: "Olivia Rodrigo",
     genre: "pop",
     image_url: "https://celebmafia.com/wp-content/uploads/2022/05/olivia-rodrigo-riding-a-bike-around-washington-dc-05-04-2022-2.jpg",
     description: "Who is this girl dating again? I forgot",
@@ -42,20 +42,7 @@ const artists = [
 ];
 
 const result = document.getElementById("result");
-
-for (let i = 0; i < artists.length; i++) {
-  result.innerHTML += `
-  <div class="artist-profile">
-    <img src="${artists[i].image_url}" alt="${artists[i].name}">
-    <div class="content-wrapper">
-      <h4>${artists[i].name}</h4>
-      <h5>${artists[i].genre}</h5>
-      <p>${artists[i].description}</p>
-      <a class="button modal-button" id="${artists[i].id}">Check net worth <i class="bi bi-arrow-right"></i></a>
-    </div>
-  </div>
-  `
-}
+showAllArtists();
 
 // get all the buttons by using the JS method getElementsByClassName
 const modalButtonsArray = document.getElementsByClassName("modal-button");
@@ -146,3 +133,196 @@ function closeModal() {
 // -check with if statement if number is less than the networth number
 // - if it's less add 1000
 // - show current number on screen (inside the setInterval)
+
+// Activity:
+//
+// - Create an array called "people", fill it with objects (5-6)
+// - Each object should a property "name", "age" and "imageURL"
+// - Show all the people on the screen using a loop and innerHTML
+//
+// Activity 2:
+//
+// - Add new property to your people called "favorite_song" and
+// give them a single favorite song
+// - Add a new property to your people called "ID". Make it 0
+// for the first person, 1 for the second, and so on.
+// - Add a button to each person's card that says "check their favorite song"
+// - In the loop, make the button's HTML ID equal to the person's ID
+// `<a class="button" id="">Check song</a>`
+//
+// Activity 3:
+// - Gather all buttons into a variable (array) using getElementsByClassName
+// - Create a loop which loops over the button array
+// - Create an onclick function for each button within the loop
+// - If the button is clicked, console log the HTML id of the button
+// Hint: use "this.id"
+//
+// Activity 4: Modal
+// - When the "check song" button is clicked, run a function called openModal
+// which takes an an argument (the button's id)
+// - Your openModal function should toggle an active class on a hidden
+// modal element in your HTML
+// - Show the "Favorite Song" in the opened modal, and add a close button
+// so you can check other artists favorite songs.
+
+// ------------------notifcations bar---------------
+const notifications = document.getElementById("notifications");
+
+// -----------------search function------------------
+
+const searchInput = document.getElementById("search-input");
+const searchBtn = document.getElementById("search-button");
+
+// this variable will become true if we find an artist
+let artistFound;
+
+searchBtn.onclick = function() {
+  filterSearchWord();
+}
+
+function filterSearchWord(){
+  // get the search word
+  let searchString = searchInput.value;
+  // check if this search word was empty
+  if (searchString == ""){
+    notifications.innerHTML = `
+    <div class="alert">Please enter a search term...</div>
+    `
+  } else {
+    runSearch(searchString);
+  }
+}
+
+function runSearch(string){
+  // artist is not found by default, only gets turned on if there's a match
+  artistFound = false;
+  // console.log(string);
+  // console.log("You ran a search");
+    result.innerHTML = "";
+  // loop through All the artists
+  for (let i = 0; i < artists.length; i++) {
+    // console.log(artists[i].name);
+    // check if this indivual artist name matches the string
+    if(string.toLowerCase() == artists[i].name.toLowerCase()){
+      artistFound = true;
+      // an artist was matched
+      notifications.innerHTML = "";
+      // if it matches the string, retrn a message
+      // console.log("Success: you found " + artists[i].name);
+      result.innerHTML += `
+      <div class="artist-profile">
+        <img src="${artists[i].image_url}" alt="${artists[i].name}">
+        <div class="content-wrapper">
+          <h4>${artists[i].name}</h4>
+          <h5>${artists[i].genre}</h5>
+          <p>${artists[i].description}</p>
+          <a class="button modal-button" id="${artists[i].id}">Check net worth <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </div>
+      `
+    }
+  } //end of loop which checks if a artist name matches
+  if (artistFound == false){
+    notifications.innerHTML = `
+    <div class="alert">Your search term "${string}" returned no results.</div>
+    `
+  }
+}
+
+// ------------filtering via genre---------
+
+const filterBtn = document.getElementById("genre-filter-button");
+filterBtn.onclick = function(){
+  filterGenre();
+}
+
+function filterGenre() {
+  // reset our list of artists
+  result.innerHTML = "";
+  // grab the checked boxes
+  let checkedBoxes = document.querySelectorAll("input[type=checkbox]:checked");
+
+// declare an array to contain all the checked genres
+  const selectedGenres = [];
+
+  for (let i = 0; i < checkedBoxes.length; i++) {
+    // grab each individual genre value
+    // console.log(checkedBoxes[i].value);
+    selectedGenres.push(checkedBoxes[i].value);
+  }
+  // console.log(selectedGenres);
+  if (selectedGenres.length == 0 ) {
+    showAllArtists();
+    notifications.innerHTML = `
+    <div class="alert">Showing all artists</div>
+    `
+  } else {
+    // console.log("You have selected a genre now");
+    notifications.innerHTML = `
+    <div class="alert">Showing genres: ${selectedGenres}</div>
+    `
+    for (let i = 0; i < selectedGenres.length; i++) {
+
+      if(selectedGenres[i] == "pop") {
+        // console.log("We found out that you were searching for pop music");
+        // loop through the artists array and compare the genre that
+        // the user chose to the genre of each artist
+        for (let i = 0; i < artists.length; i++) {
+          if(artists[i].genre == "pop") {
+            console.log(artists[i].name);
+          } //end if statement
+        } //end loop checking all artists
+      } //end of if statement
+
+      if(selectedGenres[i] == "rap") {
+        // console.log("We found out that you were searching for pop music");
+        // loop through the artists array and compare the genre that
+        // the user chose to the genre of each artist
+        for (let i = 0; i < artists.length; i++) {
+          if(artists[i].genre == "rap") {
+            console.log(artists[i].name);
+          } //end if statement
+        } //end loop checking all artists
+      } //end of if statement
+
+      if(selectedGenres[i] == "classical") {
+        // console.log("We found out that you were searching for pop music");
+        // loop through the artists array and compare the genre that
+        // the user chose to the genre of each artist
+        for (let i = 0; i < artists.length; i++) {
+          if(artists[i].genre == "classical") {
+            console.log(artists[i].name);
+          } //end if statement
+        } //end loop checking all artists
+      } //end of if statement
+
+      if(selectedGenres[i] == "indie") {
+        // console.log("We found out that you were searching for pop music");
+        // loop through the artists array and compare the genre that
+        // the user chose to the genre of each artist
+        for (let i = 0; i < artists.length; i++) {
+          if(artists[i].genre == "indie") {
+            console.log(artists[i].name);
+          } //end if statement
+        } //end loop checking all artists
+      } //end of if statement
+
+    }// end of for loop
+  } //end of the else statement
+} // end of filter genre function
+
+function showAllArtists(){
+  for (let i = 0; i < artists.length; i++) {
+    result.innerHTML += `
+    <div class="artist-profile">
+      <img src="${artists[i].image_url}" alt="${artists[i].name}">
+      <div class="content-wrapper">
+        <h4>${artists[i].name}</h4>
+        <h5>${artists[i].genre}</h5>
+        <p>${artists[i].description}</p>
+        <a class="button modal-button" id="${artists[i].id}">Check net worth <i class="bi bi-arrow-right"></i></a>
+      </div>
+    </div>
+    `
+  }
+}

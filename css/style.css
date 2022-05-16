@@ -10,8 +10,8 @@ body{
   background: rgb(205,181,255);
   background: linear-gradient(149deg, rgba(205,181,255,1) 0%, rgba(253,45,45,1) 100%);
   /* get the background to look better */
-  /* background-repeat: no-repeat; */
-  /* background-attachment: fixed; */
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
 h1 {
@@ -34,7 +34,6 @@ h5 {
 }
 
 .button {
-  margin-top:20px;
   background:black;
   color:white;
   padding:10px 12px;
@@ -67,6 +66,10 @@ i {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
   border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.artist-profile .button {
+  margin-top:20px;
 }
 
 .artist-profile img {
@@ -140,4 +143,57 @@ i {
 #close-button:hover {
   color: #FD2F30;
   cursor:pointer;
+}
+
+/* -------toolbar styles */
+
+#toolbar {
+  border-radius:10px;
+  padding:10px;
+  margin-bottom:10px;
+  display:flex;
+}
+
+#search-input {
+  border: 2px solid black;
+  padding: 10px;
+  border-radius: 10px;
+  width:250px;
+}
+
+#toolbar #search-button {
+  font-size: 32px;
+  position:relative;
+  top:7px;
+  transition: all 0.3s ease;
+}
+
+#toolbar #search-button:hover {
+  color:white;
+  cursor:pointer;
+}
+
+#filter-checkbox, #search-box {
+  width: 50%;
+}
+
+#search-box {
+  text-align:right;
+}
+
+/* notfications */
+.alert {
+  background: #ffffd4;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+/* face */
+
+#face {
+  position: absolute;
+top: 0px;
+left: 0;
+width: 91px;
 }
