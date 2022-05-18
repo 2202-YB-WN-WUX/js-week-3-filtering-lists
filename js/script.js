@@ -251,6 +251,9 @@ filterBtn.onclick = function(){
   filterGenre();
 }
 
+let filtered = false;
+let filteredGenres = [];
+
 function filterGenre() {
   // reset our list of artists
   result.innerHTML = "";
@@ -271,9 +274,13 @@ function filterGenre() {
     notifications.innerHTML = `
     <div class="alert">Showing all artists</div>
     `
+    filtered = false;
   } else {
     // selected genres are greater than 0
     // console.log("You have selected a genre now");
+    filtered = true;
+    filteredGenres = selectedGenres;
+
     notifications.innerHTML = "";
     notifications.innerHTML = `
     <span id="genre-preface">Showing genres: </span>
@@ -440,6 +447,11 @@ function closeArtistModal() {
 }
 
 const submitArtistBtn = document.getElementById("submit-artist-button");
+const artistName = document.getElementById("artist-name");
+const artistImgUrl= document.getElementById("artist-img-url");
+const artistGenre = document.getElementById("artist-genre");
+const artistNetWorth = document.getElementById("artist-net-worth");
+const artistDescription = document.getElementById("artist-description");
 
 // ----------------------------CLOUD----------------------------
 //
@@ -451,3 +463,26 @@ const submitArtistBtn = document.getElementById("submit-artist-button");
 // - Push the new artist to the artists array.
 //
 // - Refresh the list of artists on the screen.
+
+submitArtistBtn.onclick = function() {
+  let newArtist = {
+    id: artists.length,
+    name: artistName.value,
+    genre: artistGenre.value,
+    image_url: artistImgUrl.value,
+    description: artistDescription.value,
+    net_worth: artistNetWorth.value
+  }
+  artists.push(newArtist);
+  generateButtons();
+  closeArtistModal();
+  console.log(artists);
+
+  // show all artists after adding a new one
+  showAllArtists();
+
+  // check if the user has filtered
+  // if (artistFound == true) {
+  // we'll pick up on this at a later point
+  // }
+}
