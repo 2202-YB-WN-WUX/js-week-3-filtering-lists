@@ -27,6 +27,9 @@
           <label for="genre">Rap</label>
           <input type="checkbox" name="genre" value="rap">
 
+          <label for="genre">DnB</label>
+          <input type="checkbox" name="genre" value="dnb">
+
           <a id="genre-filter-button" class="button">Filter genre <i class="bi bi-arrow-right"></i></a>
 
         </form>
@@ -40,10 +43,52 @@
     <div id="result"></div>
   <div id="modal-overlay">
     <div id="modal-content">
-      <i id="close-button" class="bi bi-x-circle"></i>
+      <i id="close-button" class="close-btn bi bi-x-circle"></i>
       <h2>Net Worth</h2>
       <div id="net-worth-data"></div>
     </div>
+  </div>
+  <!-- add new artist modal -->
+  <div id="artist-modal-overlay">
+    <div id="artist-modal-content">
+      <i id="artist-close-button" class="close-btn bi bi-x-circle"></i>
+      <h2>Add new artist</h2>
+      <form id="new-artist-form">
+        <div class="form-group">
+          <label for="artist-name">Name:</label>
+          <input id="artist-name" type="text" name="artist-name" value="">
+        </div>
+        <div class="form-group">
+          <label for="artist-img-url">Image URL:</label>
+          <input id="artist-img-url" type="text" name="artist-img-url" value="">
+        </div>
+        <div class="form-group">
+          <label for="artist-genre">Genre: </label>
+          <select name="artist-genre" id="artist-genre">
+            <option>Select genre...</option>
+            <option value="pop">Pop</option>
+            <option value="rap">Rap</option>
+            <option value="classical">Classical</option>
+            <option value="indie">Indie</option>
+            <option value="dnb">DnB</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="artist-net-worth">Net worth: </label>
+          <input id="artist-net-worth" type="number" min=0 name="artist-net-worth" value="">
+        </div>
+        <div class="form-group">
+          <label for="artist-description">Description:</label>
+          <textarea id="artist-description" name="artist-description" value=""></textarea>
+        </div>
+        <div id="button-wrapper">
+        <a class="button" id="submit-artist-button">Submit <i class="bi bi-arrow-right"></i></a>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div id="add-new-button">
+    <i class="bi bi-plus-circle-fill"></i>
   </div>
   <img id="face" src="img/ccclaymoji.svg" alt="face smiley">
   <script src="js/script.js"></script>

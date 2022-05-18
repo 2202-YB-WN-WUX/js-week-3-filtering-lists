@@ -38,32 +38,46 @@ const artists = [
     image_url: "https://www.rollingstone.com/wp-content/uploads/2019/03/Tame-Impala-Matt-Sav-SYNTK.jpg",
     description: "His song got stuck in my head for 1 week",
     net_worth: 50000
+  },
+  {
+    id: 5,
+    name: "Alt J",
+    genre: "indie",
+    image_url: "https://media.npr.org/assets/img/2017/05/31/alt-j-0b2fe70e6db0c08545aaed5adaebf2f61ff1e16b-s1100-c50.jpg",
+    description: "Real cool chords in some of their songs",
+    net_worth: 150000
+  },
+  {
+    id: 6,
+    name: "Skrillex",
+    genre: "dnb",
+    image_url: "https://www.billboard.com/wp-content/uploads/media/skrillex-2011-billboard-1548.jpg",
+    description: "goes hard",
+    net_worth: 520000
+  },
+  {
+    id: 7,
+    name: "Queen Latifa",
+    genre: "pop",
+    image_url: "https://i0.wp.com/mckoysnews.com/wp-content/uploads/2020/03/queen-latifah.jpg?fit=600%2C399&ssl=1",
+    description: "goes hard",
+    net_worth: 21520000
   }
 ];
 
 const result = document.getElementById("result");
 showAllArtists();
 
-// get all the buttons by using the JS method getElementsByClassName
+
 const modalButtonsArray = document.getElementsByClassName("modal-button");
 // console.log(modalButtonsArray);
-
-for (let i=0; i < modalButtonsArray.length; i++){
-  // show the individual button
-  // console.log(modalButtonsArray[i]);
-  modalButtonsArray[i].onclick = function(){
-    // console.log("you clicked on a button");
-    // put the buttons id into a variable
-    let currentButtonId = this.id;
-    // let currentButtonId = this
-    openModal(currentButtonId);
-  }
-}
 
 const modalOverlay = document.getElementById("modal-overlay");
 const modalContent = document.getElementById("modal-content");
 const netWorthElement = document.getElementById("net-worth-data");
 const closeBtn = document.getElementById("close-button");
+
+generateButtons();
 
 closeBtn.onclick = function(){
   closeModal();
@@ -110,7 +124,6 @@ function closeModal() {
     modalOverlay.classList.toggle("active");
   }
 }
-
 // count net worth
 
 // let amountOfTimes = 0;
@@ -221,6 +234,7 @@ function runSearch(string){
       </div>
       `
     }
+    generateButtons();
   } //end of loop which checks if a artist name matches
   if (artistFound == false){
     notifications.innerHTML = `
@@ -232,6 +246,7 @@ function runSearch(string){
 // ------------filtering via genre---------
 
 const filterBtn = document.getElementById("genre-filter-button");
+
 filterBtn.onclick = function(){
   filterGenre();
 }
@@ -241,7 +256,7 @@ function filterGenre() {
   result.innerHTML = "";
   // grab the checked boxes
   let checkedBoxes = document.querySelectorAll("input[type=checkbox]:checked");
-
+  // console.log(checkedBoxes);
 // declare an array to contain all the checked genres
   const selectedGenres = [];
 
@@ -250,17 +265,27 @@ function filterGenre() {
     // console.log(checkedBoxes[i].value);
     selectedGenres.push(checkedBoxes[i].value);
   }
-  // console.log(selectedGenres);
+  console.log(selectedGenres);
   if (selectedGenres.length == 0 ) {
     showAllArtists();
     notifications.innerHTML = `
     <div class="alert">Showing all artists</div>
     `
   } else {
+    // selected genres are greater than 0
     // console.log("You have selected a genre now");
+    notifications.innerHTML = "";
     notifications.innerHTML = `
-    <div class="alert">Showing genres: ${selectedGenres}</div>
+    <span id="genre-preface">Showing genres: </span>
     `
+    for (let i = 0; i < selectedGenres.length; i++) {
+      notifications.innerHTML += `
+      <span class="alert-genre">${selectedGenres[i]}</span>
+      `
+    }
+    // notifications.innerHTML = `
+    // <div class="alert">Showing genres: ${selectedGenres}</div>
+    // `
     for (let i = 0; i < selectedGenres.length; i++) {
 
       if(selectedGenres[i] == "pop") {
@@ -269,7 +294,7 @@ function filterGenre() {
         // the user chose to the genre of each artist
         for (let i = 0; i < artists.length; i++) {
           if(artists[i].genre == "pop") {
-            console.log(artists[i].name);
+            generateArtist(i);
           } //end if statement
         } //end loop checking all artists
       } //end of if statement
@@ -280,7 +305,7 @@ function filterGenre() {
         // the user chose to the genre of each artist
         for (let i = 0; i < artists.length; i++) {
           if(artists[i].genre == "rap") {
-            console.log(artists[i].name);
+            generateArtist(i);
           } //end if statement
         } //end loop checking all artists
       } //end of if statement
@@ -291,7 +316,7 @@ function filterGenre() {
         // the user chose to the genre of each artist
         for (let i = 0; i < artists.length; i++) {
           if(artists[i].genre == "classical") {
-            console.log(artists[i].name);
+            generateArtist(i);
           } //end if statement
         } //end loop checking all artists
       } //end of if statement
@@ -302,12 +327,24 @@ function filterGenre() {
         // the user chose to the genre of each artist
         for (let i = 0; i < artists.length; i++) {
           if(artists[i].genre == "indie") {
-            console.log(artists[i].name);
+            generateArtist(i);
+          } //end if statement
+        } //end loop checking all artists
+      } //end of if statement
+
+      if(selectedGenres[i] == "dnb") {
+        // console.log("We found out that you were searching for pop music");
+        // loop through the artists array and compare the genre that
+        // the user chose to the genre of each artist
+        for (let i = 0; i < artists.length; i++) {
+          if(artists[i].genre == "dnb") {
+            generateArtist(i);
           } //end if statement
         } //end loop checking all artists
       } //end of if statement
 
     }// end of for loop
+    generateButtons();
   } //end of the else statement
 } // end of filter genre function
 
@@ -326,3 +363,91 @@ function showAllArtists(){
     `
   }
 }
+
+function generateArtist(index){
+  result.innerHTML += `
+  <div class="artist-profile">
+    <img src="${artists[index].image_url}" alt="${artists[index].name}">
+    <div class="content-wrapper">
+      <h4>${artists[index].name}</h4>
+      <h5>${artists[index].genre}</h5>
+      <p>${artists[index].description}</p>
+      <a class="button modal-button" id="${artists[index].id}">Check net worth <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+  `
+}
+
+function generateButtons(){
+  for (let i=0; i < modalButtonsArray.length; i++){
+    // show the individual button
+    // console.log(modalButtonsArray[i]);
+    modalButtonsArray[i].onclick = function(){
+      // console.log("you clicked on a button");
+      // put the buttons id into a variable
+      let currentButtonId = this.id;
+      // let currentButtonId = this
+      openModal(currentButtonId);
+    }
+  }
+}
+
+// Activity:
+// Your goal is to add 3 new artists.
+// And make one of them belong to a new genre.
+// Get them working in with the app.
+
+// Activity:
+// Add a plus button in the bottom right corner.
+// Clicking on the button will popup a modal.
+// The modal will allow you to enter new artists.
+// Artist name, genre (dropdown), net worth.
+// Add a submit button too.
+// New artists should show on the screen and be filterable.
+
+const addArtistBtn = document.getElementById("add-new-button");
+const artistModalOverlay = document.getElementById("artist-modal-overlay");
+const artistModalContent = document.getElementById("artist-modal-content");
+const artistCloseBtn = document.getElementById("artist-close-button");
+
+
+addArtistBtn.onclick = function() {
+  openNewArtistModal();
+}
+
+artistCloseBtn.onclick = function() {
+  closeArtistModal();
+}
+
+function openNewArtistModal() {
+  addArtistBtn.classList.toggle("hidden");
+  artistModalOverlay.classList.toggle("active");
+  // delay the animation
+  let delayAnimation = setTimeout(fadeInArtist, 300);
+  function fadeInArtist(){
+    artistModalContent.classList.toggle("active");
+  }
+}
+
+function closeArtistModal() {
+  artistModalContent.classList.toggle("active");
+  // delay the animation
+  let delayAnimation = setTimeout(fadeInArtist, 300);
+  function fadeInArtist(){
+    artistModalOverlay.classList.toggle("active");
+    addArtistBtn.classList.toggle("hidden");
+  }
+}
+
+const submitArtistBtn = document.getElementById("submit-artist-button");
+
+// ----------------------------CLOUD----------------------------
+//
+// - When the user clicks "submit" in the add new artist modal,
+// declare an object which is filled with the values of the inputs.
+//
+// - Use the artists array length to determine the new ID
+//
+// - Push the new artist to the artists array.
+//
+// - Refresh the list of artists on the screen.
