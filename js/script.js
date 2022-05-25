@@ -209,33 +209,56 @@ function filterSearchWord(){
 function runSearch(string){
   // artist is not found by default, only gets turned on if there's a match
   artistFound = false;
+  let artistsFoundNumber = 0;
   // console.log(string);
   // console.log("You ran a search");
-    result.innerHTML = "";
-  // loop through All the artists
+  result.innerHTML = "";
+
   for (let i = 0; i < artists.length; i++) {
-    // console.log(artists[i].name);
-    // check if this indivual artist name matches the string
-    if(string.toLowerCase() == artists[i].name.toLowerCase()){
+    // lowercase string is the user search, changed to lower case
+    let lowercaseSearchString = string.toLowerCase();
+    // turn each iteration of an artist name into a variable, that is lower case
+    let lowercaseArtistName = artists[i].name.toLowerCase();
+    // declare a variable called match, it will become true if the
+    // artist name includes anything within the search term
+    let match = lowercaseArtistName.includes(lowercaseSearchString);
+    // console.log(lowercaseArtistName);
+    // console.log(match);
+    if (match == true) {
+      artistsFoundNumber++;
       artistFound = true;
-      // an artist was matched
-      notifications.innerHTML = "";
-      // if it matches the string, retrn a message
-      // console.log("Success: you found " + artists[i].name);
-      result.innerHTML += `
-      <div class="artist-profile">
-        <img src="${artists[i].image_url}" alt="${artists[i].name}">
-        <div class="content-wrapper">
-          <h4>${artists[i].name}</h4>
-          <h5>${artists[i].genre}</h5>
-          <p>${artists[i].description}</p>
-          <a class="button modal-button" id="${artists[i].id}">Check net worth <i class="bi bi-arrow-right"></i></a>
-        </div>
-      </div>
+      generateArtist(i);
+      notifications.innerHTML = `
+      <div class="alert">Your search term <strong>"${string}"</strong> returned ${artistsFoundNumber} results.</div>
       `
     }
-    generateButtons();
-  } //end of loop which checks if a artist name matches
+  }
+
+  // loop through All the artists
+  // for (let i = 0; i < artists.length; i++) {
+  //   // console.log(artists[i].name);
+  //   // check if this indivual artist name matches the string
+  //   if(string.toLowerCase() == artists[i].name.toLowerCase()){
+  //     artistFound = true;
+  //     // an artist was matched
+  //     notifications.innerHTML = "";
+  //     // if it matches the string, retrn a message
+  //     // console.log("Success: you found " + artists[i].name);
+  //     result.innerHTML += `
+  //     <div class="artist-profile">
+  //       <img src="${artists[i].image_url}" alt="${artists[i].name}">
+  //       <div class="content-wrapper">
+  //         <h4>${artists[i].name}</h4>
+  //         <h5>${artists[i].genre}</h5>
+  //         <p>${artists[i].description}</p>
+  //         <a class="button modal-button" id="${artists[i].id}">Check net worth <i class="bi bi-arrow-right"></i></a>
+  //       </div>
+  //     </div>
+  //     `
+  //   }
+  //   generateButtons();
+  // } //end of loop which checks if a artist name matches
+  //
   if (artistFound == false){
     notifications.innerHTML = `
     <div class="alert">Your search term "${string}" returned no results.</div>
